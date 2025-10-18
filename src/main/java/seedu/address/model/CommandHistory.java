@@ -2,12 +2,41 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class CommandHistory
 {
-    private final ObservableList<String> commandList = FXCollections.observableArrayList();
+    private final ObservableList<String> commandList;
+
+    /**
+     * Constructs an empty {@code CommandHistory}.
+     */
+    public CommandHistory() {
+        commandList = FXCollections.observableArrayList();
+    }
+
+    /**
+     * Constructs a {@code CommandHistory} with given commands.
+     */
+    @JsonCreator
+    public CommandHistory(@JsonProperty("commandList") List<String> commands) {
+        commandList = FXCollections.observableArrayList(commands);
+    }
+
+    /**
+     * Gets the list of commands for JSON serialization.
+     */
+    @JsonProperty("commandList")
+    public List<String> getCommands() {
+        return new ArrayList<>(commandList);
+    }
 
     /**
      * Adds a command to the list.
@@ -33,6 +62,7 @@ public class CommandHistory
      * Gets a List of commands
      * @return ObservableList of all command.
      */
+
     public ObservableList<String> getCommandList() {
         return FXCollections.observableArrayList(commandList);
     }
