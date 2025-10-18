@@ -3,19 +3,24 @@ package seedu.address.logic;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.nio.file.Path;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.logic.parser.AddressBookParser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.AddressBook;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.person.Person;
+import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.Storage;
 
 /**
@@ -32,14 +37,29 @@ public class LogicManager implements Logic {
     private final Model model;
     private final Storage storage;
     private final AddressBookParser addressBookParser;
+    private CommandHistory commandHistory;
 
     /**
      * Constructs a {@code LogicManager} with the given {@code Model} and {@code Storage}.
      */
-    public LogicManager(Model model, Storage storage) {
+    public LogicManager(Model model, Storage storage)  {
         this.model = model;
         this.storage = storage;
         addressBookParser = new AddressBookParser();
+        Optional<CommandHistory> commandHistoryOptional;
+        try {
+            commandHistoryOptional = storage.readCommandHistory();
+            if (!commandHistoryOptional.isPresent()) {
+                logger.info("Creating a new command history file "
+                        + storage.getCommandHistoryFilePath());
+            } else {
+                commandHistory = commandHistoryOptional.get();
+            }
+        } catch (DataLoadingException e) {
+            logger.warning("Command History " + storage.getCommandHistoryFilePath() + " could not be loaded."
+                    + " Will be starting with an empty history list.");
+            commandHistory = new CommandHistory();
+        }
     }
 
     @Override
@@ -49,6 +69,7 @@ public class LogicManager implements Logic {
         CommandResult commandResult;
         Command command = addressBookParser.parseCommand(commandText);
         commandResult = command.execute(model);
+        commandHistory.add(commandText);
 
         try {
             storage.saveAddressBook(model.getAddressBook());
