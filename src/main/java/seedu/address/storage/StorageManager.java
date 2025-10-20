@@ -13,7 +13,8 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 
 /**
- * Manages storage of AddressBook data in local storage.
+ * Coordinates reading/writing of both AddressBook data and UserPrefs.
+ * This class mostly delegates to concrete storage implementations.
  */
 public class StorageManager implements Storage {
 
@@ -23,7 +24,7 @@ public class StorageManager implements Storage {
     private CommandHistoryStorage commandHistoryStorage;
 
     /**
-     * Creates a {@code StorageManager} with the given {@code AddressBookStorage} and {@code UserPrefStorage}.
+     * Constructs a StorageManager with the provided storage implementations.
      */
     public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage
         , CommandHistoryStorage commandHistoryStorage) {
@@ -95,4 +96,28 @@ public class StorageManager implements Storage {
         commandHistoryStorage.saveCommandHistory(commandHistory);
     }
 
+    /**
+     * Reads data and also returns information about invalid entries collected during parse.
+     */
+    @Override
+    public LoadReport readAddressBookWithReport() throws DataLoadingException {
+        Path path = addressBookStorage.getAddressBookFilePath();
+        logger.fine("Attempting to read data (with report) from file: " + path);
+        return addressBookStorage.readAddressBookWithReport(path);
+    }
+
+    @Override
+    public LoadReport readAddressBookWithReport(Path filePath) throws DataLoadingException {
+        logger.fine("Attempting to read data (with report) from file: " + filePath);
+        return addressBookStorage.readAddressBookWithReport(filePath);
+    }
+
+    /**
+     * In-place overwrite of a single raw JSON entry, then return a fresh LoadReport.
+     */
+    @Override
+    public LoadReport overwriteRawEntryAtIndex(int index, seedu.address.model.person.Person person)
+            throws seedu.address.commons.exceptions.DataLoadingException, java.io.IOException {
+        return addressBookStorage.overwriteRawEntryAtIndex(index, person);
+    }
 }
