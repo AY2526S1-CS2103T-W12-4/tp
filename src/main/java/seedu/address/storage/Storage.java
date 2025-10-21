@@ -46,7 +46,7 @@ public interface Storage extends AddressBookStorage, UserPrefsStorage, CommandHi
 
     @Override
     Path getCommandHistoryFilePath();
-  
+
     /**
      * Reads the address book and returns a {@link LoadReport} that includes:
      *  - the successfully parsed model snapshot; and
