@@ -1,7 +1,6 @@
 package seedu.address;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -82,7 +81,7 @@ public class MainApp extends Application {
                 initialData = sample;
                 try {
                     storageArg.saveAddressBook(sample);
-                } catch (AccessDeniedException | IOException e) {
+                } catch (IOException e) {
                     logger.warning(String.format("Could not save sample data to %s.", dataPath));
                 }
             } else {
@@ -91,8 +90,11 @@ public class MainApp extends Application {
                 logger.info("Invalid entries detected: " + report.getInvalids().size());
             }
         } catch (seedu.address.commons.exceptions.DataLoadingException e) {
+            logger.warning(
+                    "Problem while loading from the data file. Will be starting with the default AddressBook.");
             initialData = new seedu.address.model.AddressBook();
         } catch (Exception e) {
+            logger.warning("Unknown exception " + e + " detected. Will be starting with the default AddressBook.");
             initialData = new seedu.address.model.AddressBook();
         }
 
