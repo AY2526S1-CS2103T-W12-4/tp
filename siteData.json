@@ -104,9 +104,10 @@
     },
     {
       "src": "UserGuide.md",
+      "title": "User Guide",
       "headings": {
-        "estatesearch": "EstateSearch",
-        "quick-start": "Quick start",
+        "welcome-to-estatesearch": "Welcome to EstateSearch!",
+        "getting-started": "Getting Started",
         "features": "Features",
         "viewing-help-help": "Viewing help : help",
         "adding-a-person-add": "Adding a person: add",
@@ -123,6 +124,7 @@
         "saving-the-data": "Saving the data",
         "editing-the-data-file": "Editing the data file",
         "faq": "FAQ",
+        "q-does-each-person-have-a-fixed-index-a-no-the-index-of-each-person-depends-on-the-current-filtered-list-showed-in-the-gui-the-index-of-a-person-may-change-when-the-list-is-filtered-using-the-find-command-or-when-persons-are-added-or-deleted": "Q: Does each person have a fixed index?\nA: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the find command or when persons are added or deleted.",
         "known-issues": "Known issues",
         "command-summary": "Command summary"
       },
