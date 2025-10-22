@@ -13,19 +13,20 @@ import seedu.address.model.tag.Tag;
 public class PersonTest {
 
     private static Person person(String n, String p, String e, String a, String l, Set<Tag> tags) {
-        return new Person(new Name(n), new Phone(p), new Email(e), new Address(a), new Listing(l), tags);
+        return new Person(new Name(n), new Phone(p), new Email(e), new Address(a), new Listing(l), tags, Set.of());
     }
 
     @Test
     public void constructor_nullName_throwsNullPointerException() {
         assertThrows(NullPointerException.class, () ->
                 new Person(null, new Phone("91234567"), new Email("a@b.com"),
-                        new Address("addr"), new Listing("HDB"), Set.of()));
+                        new Address("addr"), new Listing("HDB"), Set.of(), Set.of()));
     }
 
     @Test
     public void getters_roundTrip() {
-        Person p = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", "HDB", Set.of(new Tag("x")));
+        Person p = person("Alice Bob", "91234567", "alice@example.com", "1 Main St", "HDB",
+                Set.of(new Tag("x")));
         assertEquals("Alice Bob", p.getName().fullName);
         assertEquals("91234567", p.getPhone().value);
         assertEquals("alice@example.com", p.getEmail().value);

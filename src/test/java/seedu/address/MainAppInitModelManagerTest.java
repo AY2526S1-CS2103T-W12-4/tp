@@ -29,7 +29,8 @@ import seedu.address.storage.Storage;
 public class MainAppInitModelManagerTest {
 
     private static Person p(String n, String ph, String em, String ad, String li) {
-        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), new Listing(li), Set.of());
+        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), new Listing(li),
+                Set.of(), Set.of());
     }
 
     private static class StorageWithReport implements Storage {
