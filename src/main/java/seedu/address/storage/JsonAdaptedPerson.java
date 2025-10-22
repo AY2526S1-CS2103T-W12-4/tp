@@ -15,6 +15,7 @@ import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
+import seedu.address.model.property.Property;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -30,6 +31,7 @@ class JsonAdaptedPerson {
     private final String address;
     private final String listing;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<Property> interestedProperties = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -38,7 +40,8 @@ class JsonAdaptedPerson {
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
             @JsonProperty("listing") String listing,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("tags") List<JsonAdaptedTag> tags,
+            @JsonProperty("interestedProperties") List<Property> interestedProperties) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -46,6 +49,9 @@ class JsonAdaptedPerson {
         this.listing = listing;
         if (tags != null) {
             this.tags.addAll(tags);
+        }
+        if (interestedProperties != null) {
+            this.interestedProperties.addAll(interestedProperties);
         }
     }
 
@@ -61,6 +67,8 @@ class JsonAdaptedPerson {
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .toList());
+        interestedProperties.addAll(source.getInterestedProperties());
+
     }
 
     /**
@@ -115,7 +123,9 @@ class JsonAdaptedPerson {
         final Listing modelListing = new Listing(listing);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelListing, modelTags);
+
+        final Set<Property> modelProperties = new HashSet<>(interestedProperties);
+        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelListing, modelTags, modelProperties);
     }
 
     /**
@@ -159,8 +169,8 @@ class JsonAdaptedPerson {
      * This lets the load-report and the fix wizard know exactly which inputs to
      * require from the user, while pre-filling the valid ones as read-only.
      */
-    public java.util.Set<String> invalidFieldKeys() {
-        java.util.Set<String> invalids = new java.util.HashSet<>();
+    public Set<String> invalidFieldKeys() {
+        Set<String> invalids = new HashSet<>();
 
         if (name == null || !Name.isValidName(name)) {
             invalids.add("name");
@@ -174,7 +184,7 @@ class JsonAdaptedPerson {
         if (address == null || !Address.isValidAddress(address)) {
             invalids.add("address");
         }
-        if (listing == null || !Listing.isValidListing(listing)) {
+        if (!Listing.isValidListing(listing)) {
             invalids.add("listing");
         }
         return invalids;

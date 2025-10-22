@@ -39,12 +39,12 @@ public class FixInvalidCommandParser implements Parser<FixInvalidCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_INDEX, PREFIX_NAME, PREFIX_PHONE,
                         PREFIX_EMAIL, PREFIX_ADDRESS, PREFIX_LISTING);
 
-        if (!argMultimap.getValue(PREFIX_INDEX).isPresent()
-                || !argMultimap.getValue(PREFIX_NAME).isPresent()
-                || !argMultimap.getValue(PREFIX_PHONE).isPresent()
-                || !argMultimap.getValue(PREFIX_EMAIL).isPresent()
-                || !argMultimap.getValue(PREFIX_ADDRESS).isPresent()
-                || !argMultimap.getValue(PREFIX_LISTING).isPresent()) {
+        if (argMultimap.getValue(PREFIX_INDEX).isEmpty()
+                || argMultimap.getValue(PREFIX_NAME).isEmpty()
+                || argMultimap.getValue(PREFIX_PHONE).isEmpty()
+                || argMultimap.getValue(PREFIX_EMAIL).isEmpty()
+                || argMultimap.getValue(PREFIX_ADDRESS).isEmpty()
+                || argMultimap.getValue(PREFIX_LISTING).isEmpty()) {
             throw new ParseException("Missing required fields. Usage: " + FixInvalidCommand.MESSAGE_USAGE);
         }
 
@@ -57,7 +57,8 @@ public class FixInvalidCommandParser implements Parser<FixInvalidCommand> {
         Address address = new Address(argMultimap.getValue(PREFIX_ADDRESS).get());
         Listing listing = new Listing(argMultimap.getValue(PREFIX_LISTING).get());
 
-        Person corrected = new Person(name, phone, email, address, listing, new java.util.HashSet<>());
+        Person corrected = new Person(name, phone, email, address, listing, new java.util.HashSet<>(),
+                new java.util.HashSet<>());
 
         return new FixInvalidCommand(jsonIndex, corrected, storage);
     }
