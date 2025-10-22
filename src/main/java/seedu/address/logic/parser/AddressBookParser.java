@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.AddPropertyCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.DeleteCommand;
@@ -20,6 +21,7 @@ import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.ListInvalidCommand;
+import seedu.address.logic.commands.SetOwnedPropertyCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.storage.Storage;
 
@@ -92,7 +94,6 @@ public class AddressBookParser {
             ensureStorageAvailableFor("fix-invalid");
             return new FixInvalidCommandParser(storage).parse(arguments);
 
-        // your feature: read LoadReport via storage supplier
         case ListInvalidCommand.COMMAND_WORD:
             ensureStorageAvailableFor("list-invalid");
             return new ListInvalidCommand(() -> {
@@ -107,6 +108,12 @@ public class AddressBookParser {
 
         case ExportCommand.COMMAND_WORD:
             return new ExportCommandParser().parse(arguments);
+
+        case SetOwnedPropertyCommand.COMMAND_WORD:
+            return new SetOwnedPropertyCommandParser().parse(arguments);
+
+        case AddPropertyCommand.COMMAND_WORD:
+            return new AddPropertyCommandParser().parse(arguments);
 
         default:
             logger.finer("This user input caused a ParseException: " + userInput);

@@ -23,20 +23,25 @@ public class Person {
 
     // Data fields
     private final Address address;
-    private final Listing listing;
+    private final OwnedProperties ownedProperties;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Listing listing, Set<Tag> tags) {
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags,
+            OwnedProperties ownedProperties) {
         requireAllNonNull(name, phone, email, address, tags);
+        this.ownedProperties = OwnedProperties.empty();
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
         this.tags.addAll(tags);
-        this.listing = listing;
+    }
+
+    public Person(Name name, Phone phone, Email email, Address address, Set<Tag> tags) {
+        this(name, phone, email, address, tags, OwnedProperties.empty());
     }
 
     public Name getName() {
@@ -55,8 +60,8 @@ public class Person {
         return address;
     }
 
-    public Listing getListing() {
-        return listing;
+    public OwnedProperties getOwnedProperties() {
+        return ownedProperties;
     }
 
     /**
@@ -101,13 +106,13 @@ public class Person {
                 && email.equals(otherPerson.email)
                 && address.equals(otherPerson.address)
                 && tags.equals(otherPerson.tags)
-                && listing.equals(otherPerson.listing);
+                && ownedProperties.equals(otherPerson.ownedProperties);
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, listing, tags);
+        return Objects.hash(name, phone, email, address, tags, ownedProperties);
     }
 
     @Override
@@ -118,7 +123,7 @@ public class Person {
                 .add("email", email)
                 .add("address", address)
                 .add("tags", tags)
-                .add("listing", listing)
+                .add("ownedProperties", ownedProperties)
                 .toString();
     }
 
@@ -129,7 +134,6 @@ public class Person {
         return Name.isValidName(name.fullName)
                 && Phone.isValidPhone(phone.value)
                 && Email.isValidEmail(email.value)
-                && Address.isValidAddress(address.value)
-                && Listing.isValidListing(listing.value);
+                && Address.isValidAddress(address.value);
     }
 }

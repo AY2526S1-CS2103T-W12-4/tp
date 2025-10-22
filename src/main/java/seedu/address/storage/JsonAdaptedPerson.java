@@ -11,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.OwnedProperties;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -28,8 +28,8 @@ class JsonAdaptedPerson {
     private final String phone;
     private final String email;
     private final String address;
-    private final String listing;
     private final List<JsonAdaptedTag> tags = new ArrayList<>();
+    private final List<String> ownedProperties = new ArrayList<>();
 
     /**
      * Constructs a {@code JsonAdaptedPerson} with the given person details.
@@ -37,15 +37,17 @@ class JsonAdaptedPerson {
     @JsonCreator
     public JsonAdaptedPerson(@JsonProperty("name") String name, @JsonProperty("phone") String phone,
             @JsonProperty("email") String email, @JsonProperty("address") String address,
-            @JsonProperty("listing") String listing,
-            @JsonProperty("tags") List<JsonAdaptedTag> tags) {
+            @JsonProperty("tags") List<JsonAdaptedTag> tags,
+            @JsonProperty("ownedProperties") List<String> ownedProperties) {
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.listing = listing;
         if (tags != null) {
             this.tags.addAll(tags);
+        }
+        if (ownedProperties != null) {
+            this.ownedProperties.addAll(ownedProperties);
         }
     }
 
@@ -57,10 +59,14 @@ class JsonAdaptedPerson {
         phone = source.getPhone().value;
         email = source.getEmail().value;
         address = source.getAddress().value;
-        listing = source.getListing().value;
         tags.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .toList());
+        this.ownedProperties.addAll(
+                source.getOwnedProperties().getUnmodifiableList().stream()
+                        .map(p -> p.getPropertyName().toString())
+                        .toList()
+        );
     }
 
     /**
@@ -106,16 +112,11 @@ class JsonAdaptedPerson {
         }
         final Address modelAddress = new Address(address);
 
-        if (listing == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Listing.class.getSimpleName()));
-        }
-        if (!Listing.isValidListing(listing)) {
-            throw new IllegalValueException(Listing.MESSAGE_CONSTRAINTS);
-        }
-        final Listing modelListing = new Listing(listing);
-
         final Set<Tag> modelTags = new HashSet<>(personTags);
-        return new Person(modelName, modelPhone, modelEmail, modelAddress, modelListing, modelTags);
+        return new Person(
+                modelName, modelPhone, modelEmail, modelAddress, modelTags,
+                OwnedProperties.empty()
+        );
     }
 
     /**
@@ -147,14 +148,14 @@ class JsonAdaptedPerson {
         return address;
     }
 
-    public String getListing() {
-        return listing;
+    public java.util.List<String> getOwnedProperties() {
+        return java.util.Collections.unmodifiableList(ownedProperties);
     }
 
     /**
      * Returns the set of field keys that are invalid, based on the same validation
      * rules used by toModelType(). Keys are one or more of:
-     *   "name", "phone", "email", "address", "listing"
+     *   "name", "phone", "email", "address"
      *
      * This lets the load-report and the fix wizard know exactly which inputs to
      * require from the user, while pre-filling the valid ones as read-only.
@@ -173,9 +174,6 @@ class JsonAdaptedPerson {
         }
         if (address == null || !Address.isValidAddress(address)) {
             invalids.add("address");
-        }
-        if (listing == null || !Listing.isValidListing(listing)) {
-            invalids.add("listing");
         }
         return invalids;
     }
