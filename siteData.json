@@ -108,6 +108,7 @@
       "headings": {
         "welcome-to-estatesearch": "Welcome to EstateSearch!",
         "getting-started": "Getting Started",
+        "estatesearch-command-summary": "EstateSearch Command Summary",
         "features": "Features",
         "viewing-help-help": "Viewing help : help",
         "adding-a-person-add": "Adding a person: add",
@@ -125,9 +126,8 @@
         "saving-the-data": "Saving the data",
         "editing-the-data-file": "Editing the data file",
         "faq": "FAQ",
-        "q-how-do-i-transfer-my-data-to-another-computer-a-install-the-app-in-the-other-computer-and-overwrite-the-empty-data-file-it-creates-with-the-file-that-contains-the-data-of-your-previous-estatesearch-home-folder-q-can-i-search-for-partial-names-like-john-for-johnathan-a-estatesearch-does-support-partial-name-matching-but-only-for-full-words-within-the-name-for-example-searching-for-john-will-match-john-doe-but-not-johnathan-smith-q-does-each-person-have-a-fixed-index-a-no-the-index-of-each-person-depends-on-the-current-filtered-list-showed-in-the-gui-the-index-of-a-person-may-change-when-the-list-is-filtered-using-the-find-command-or-when-persons-are-added-or-deleted": "Q: How do I transfer my data to another Computer?\nA: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous EstateSearch home folder.\nQ: Can i search for partial names like 'John' for 'Johnathan'\nA: EstateSearch does support partial name matching but only for full words within the name. For example, searching for 'John' will match 'John Doe' but not 'Johnathan Smith'.\nQ: Does each person have a fixed index?\nA: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the find command or when persons are added or deleted.",
-        "known-issues": "Known issues",
-        "command-summary": "Command summary"
+        "q-does-each-person-have-a-fixed-index-a-no-the-index-of-each-person-depends-on-the-current-filtered-list-showed-in-the-gui-the-index-of-a-person-may-change-when-the-list-is-filtered-using-the-find-command-or-when-persons-are-added-or-deleted": "Q: Does each person have a fixed index?\nA: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the find command or when persons are added or deleted.",
+        "known-issues": "Known issues"
       },
       "headingKeywords": {}
     },
