@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import seedu.address.commons.exceptions.IllegalValueException;
 
 public class CommandHistory
 {
@@ -51,8 +52,11 @@ public class CommandHistory
      * @param n Number of commands to get
      * @return ObservableList of last {@param n} commands.
      */
-    public ObservableList<String> getCommandList(int n) {
+    public ObservableList<String> getCommandList(int n) throws IllegalValueException {
         int size = commandList.size();
+        if (n < 0) {
+            throw new IllegalValueException("Number of Commands cannot be less than 0!");
+        }
         return FXCollections.observableArrayList(
                 commandList.subList(Math.max(size - n, 0), size)
         );
