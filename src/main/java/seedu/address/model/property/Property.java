@@ -16,13 +16,13 @@ public class Property {
 
     private final Address address;
     private final Price price;
-    private final Name propertyName;
+    private final PropertyName propertyName;
 
     /**
      * Every field must be present and not null.
      */
-    public Property(Address address, Price price, Name propertyName) {
-        requireAllNonNull(address, price);
+    public Property(Address address, Price price, PropertyName propertyName) {
+        requireAllNonNull(address, price, propertyName);
         this.address = address;
         this.price = price;
         this.propertyName = propertyName;
@@ -36,7 +36,7 @@ public class Property {
         return price;
     }
 
-    public Name getPropertyName() {
+    public PropertyName getPropertyName() {
         return propertyName;
     }
 

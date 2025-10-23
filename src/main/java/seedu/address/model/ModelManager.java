@@ -12,6 +12,7 @@ import javafx.collections.transformation.FilteredList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.Person;
+import seedu.address.model.property.Property;
 
 /**
  * Represents the in-memory model of the address book data.
@@ -23,6 +24,8 @@ public class ModelManager implements Model {
     private final UserPrefs userPrefs;
     private final CommandHistory commandHistory;
     private final FilteredList<Person> filteredPersons;
+    private final FilteredList<Property> filteredProperties;
+
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -37,6 +40,7 @@ public class ModelManager implements Model {
         this.userPrefs = new UserPrefs(userPrefs);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         this.commandHistory = commandHistory;
+        filteredProperties = new FilteredList<>(this.addressBook.getPropertyList());
     }
 
     public ModelManager() {
@@ -97,8 +101,19 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public boolean hasProperty(Property property) {
+        requireNonNull(property);
+        return addressBook.hasProperty(property);
+    }
+
+    @Override
     public void deletePerson(Person target) {
         addressBook.removePerson(target);
+    }
+
+    @Override
+    public void deleteProperty(Property property) {
+        addressBook.removeProperty(property);
     }
 
     @Override
@@ -108,10 +123,20 @@ public class ModelManager implements Model {
     }
 
     @Override
+    public void addProperty(Property property) {
+        addressBook.addProperty(property);
+    }
+
+    @Override
     public void setPerson(Person target, Person editedPerson) {
         requireAllNonNull(target, editedPerson);
 
         addressBook.setPerson(target, editedPerson);
+    }
+
+    @Override
+    public void setProperty(Property target, Property editedProperty) {
+
     }
 
     //=========== Filtered Person List Accessors =============================================================
@@ -130,6 +155,18 @@ public class ModelManager implements Model {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
+
+    @Override
+    public ObservableList<Property> getFilteredPropertyList() {
+        return filteredProperties;
+    }
+
+    @Override
+    public void updateFilteredPropertyList(Predicate<Property> predicate) {
+        requireNonNull(predicate);
+        filteredProperties.setPredicate(predicate);
+    }
+
 
     @Override
     public boolean equals(Object other) {

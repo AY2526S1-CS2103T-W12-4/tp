@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -19,7 +20,6 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
-import seedu.address.model.person.Listing;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -28,8 +28,8 @@ import seedu.address.storage.Storage;
 
 public class MainAppInitModelManagerTest {
 
-    private static Person p(String n, String ph, String em, String ad, String li) {
-        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), new Listing(li), Set.of());
+    private static Person p(String n, String ph, String em, String ad) {
+        return new Person(new Name(n), new Phone(ph), new Email(em), new Address(ad), Set.of(), List.of());
     }
 
     private static class StorageWithReport implements Storage {
@@ -94,7 +94,7 @@ public class MainAppInitModelManagerTest {
     @Test
     void initModelManager_usesReportSnapshotWhenAvailable() throws Exception {
         AddressBook ab = new AddressBook();
-        ab.addPerson(p("A", "91234567", "a@a.com", "a", "HDB"));
+        ab.addPerson(p("A", "91234567", "a@a.com", "a"));
         LoadReport rpt = new LoadReport(new LoadReport.ModelData(ab), java.util.List.of());
 
         Path existing = Files.createTempFile("ab-exists-", ".json");
