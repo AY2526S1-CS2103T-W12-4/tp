@@ -41,7 +41,7 @@ public class LogicManager implements Logic {
      * @param model   application model to mutate and query.
      * @param storage storage backend used to persist model changes.
      */
-    public LogicManager(Model model, Storage storage)  {
+    public LogicManager(Model model, Storage storage) {
         this.model = model;
         this.storage = storage;
         this.addressBookParser = new AddressBookParser(storage);

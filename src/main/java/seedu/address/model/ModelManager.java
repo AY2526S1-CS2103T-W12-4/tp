@@ -187,7 +187,7 @@ public class ModelManager implements Model {
 
     // ===== Command History ====
 
-    public CommandHistory getCommandHistory(){
+    public CommandHistory getCommandHistory() {
         return this.commandHistory;
     }
 }

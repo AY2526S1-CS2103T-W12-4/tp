@@ -2,7 +2,6 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -12,15 +11,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import seedu.address.commons.exceptions.IllegalValueException;
 
-public class CommandHistory
-{
-    private final ObservableList<String> commandList;
+/**
+ * Class to store all the Command History of the user.
+ */
+public class CommandHistory {
+    private final ObservableList<String> commands;
 
     /**
      * Constructs an empty {@code CommandHistory}.
      */
     public CommandHistory() {
-        commandList = FXCollections.observableArrayList();
+        commands = FXCollections.observableArrayList();
     }
 
     /**
@@ -28,15 +29,7 @@ public class CommandHistory
      */
     @JsonCreator
     public CommandHistory(@JsonProperty("commandList") List<String> commands) {
-        commandList = FXCollections.observableArrayList(commands);
-    }
-
-    /**
-     * Gets the list of commands for JSON serialization.
-     */
-    @JsonProperty("commandList")
-    public List<String> getCommands() {
-        return new ArrayList<>(commandList);
+        this.commands = FXCollections.observableArrayList(commands);
     }
 
     /**
@@ -44,7 +37,7 @@ public class CommandHistory
      */
     public void add(String newCommand) {
         requireNonNull(newCommand);
-        commandList.add(newCommand);
+        commands.add(newCommand);
     }
 
     /**
@@ -53,12 +46,12 @@ public class CommandHistory
      * @return ObservableList of last {@param n} commands.
      */
     public ObservableList<String> getCommandList(int n) throws IllegalValueException {
-        int size = commandList.size();
+        int size = commands.size();
         if (n < 0) {
             throw new IllegalValueException("Number of Commands cannot be less than 0!");
         }
         return FXCollections.observableArrayList(
-                commandList.subList(Math.max(size - n, 0), size)
+                commands.subList(Math.max(size - n, 0), size)
         );
     }
 
@@ -67,7 +60,7 @@ public class CommandHistory
      * @return ObservableList of all command.
      */
 
-    public ObservableList<String> getCommandList() {
-        return FXCollections.observableArrayList(commandList);
+    public ObservableList<String> getCommands() {
+        return FXCollections.observableArrayList(commands);
     }
 }

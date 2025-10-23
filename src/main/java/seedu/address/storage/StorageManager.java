@@ -26,8 +26,8 @@ public class StorageManager implements Storage {
     /**
      * Constructs a StorageManager with the provided storage implementations.
      */
-    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage
-        , CommandHistoryStorage commandHistoryStorage) {
+    public StorageManager(AddressBookStorage addressBookStorage, UserPrefsStorage userPrefsStorage,
+                          CommandHistoryStorage commandHistoryStorage) {
         this.addressBookStorage = addressBookStorage;
         this.userPrefsStorage = userPrefsStorage;
         this.commandHistoryStorage = commandHistoryStorage;

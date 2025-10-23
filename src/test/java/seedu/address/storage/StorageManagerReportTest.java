@@ -18,6 +18,7 @@ public class StorageManagerReportTest {
     @Test
     void delegate_readReport() throws Exception {
         Path ab = Files.createTempFile("sm_ab", ".json");
+        Path cmd = Files.createTempFile("sm_cmds", ".json");
         Path prefs = Files.createTempFile("sm_prefs", ".json");
         String json = "{ \"persons\":["
                 + "{ \"name\":\"Alice Bob\",\"phone\":\"91234567\",\"email\":\"alice@example.com\","
@@ -28,7 +29,8 @@ public class StorageManagerReportTest {
 
         JsonAddressBookStorage abStorage = new JsonAddressBookStorage(ab);
         JsonUserPrefsStorage prefsStorage = new JsonUserPrefsStorage(prefs);
-        StorageManager sm = new StorageManager(abStorage, prefsStorage);
+        JsonCommandHistoryStorage commandHistoryStorage = new JsonCommandHistoryStorage(cmd);
+        StorageManager sm = new StorageManager(abStorage, prefsStorage, commandHistoryStorage);
 
         LoadReport rp = sm.readAddressBookWithReport();
         ReadOnlyAddressBook model = rp.getModelData().getAddressBook();
