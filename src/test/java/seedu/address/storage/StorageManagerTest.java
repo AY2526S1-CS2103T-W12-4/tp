@@ -16,6 +16,7 @@ import seedu.address.commons.core.GuiSettings;
 import seedu.address.model.AddressBook;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
+import seedu.address.storage.JsonCommandHistoryStorage;
 
 /**
  * Integration tests for {@link StorageManager}.
@@ -36,11 +37,10 @@ public class StorageManagerTest {
 
     @BeforeEach
     public void setUp() {
-        JsonAddressBookStorage addressBookStorage =
-                new JsonAddressBookStorage(getTempFilePath("ab"));
-        JsonUserPrefsStorage userPrefsStorage =
-                new JsonUserPrefsStorage(getTempFilePath("prefs"));
-        storageManager = new StorageManager(addressBookStorage, userPrefsStorage);
+        JsonAddressBookStorage addressBookStorage = new JsonAddressBookStorage(getTempFilePath("ab"));
+        JsonUserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(getTempFilePath("prefs"));
+        JsonCommandHistoryStorage cmdHistoryStorage = new JsonCommandHistoryStorage(getTempFilePath("cmd"));
+        storageManager = new StorageManager(addressBookStorage, userPrefsStorage, cmdHistoryStorage);
     }
 
     @Test
@@ -79,7 +79,8 @@ public class StorageManagerTest {
 
         StorageManager mgr = new StorageManager(
                 new JsonAddressBookStorage(invalidOnly),
-                new JsonUserPrefsStorage(getTempFilePath("prefs2"))
+                new JsonUserPrefsStorage(getTempFilePath("prefs2")),
+                new JsonCommandHistoryStorage(getTempFilePath("cmd2"))
         );
 
         LoadReport report = mgr.readAddressBookWithReport(invalidOnly);
@@ -106,7 +107,8 @@ public class StorageManagerTest {
 
         StorageManager mgr = new StorageManager(
                 new JsonAddressBookStorage(mixed),
-                new JsonUserPrefsStorage(getTempFilePath("prefs3"))
+                new JsonUserPrefsStorage(getTempFilePath("prefs3")),
+                new JsonCommandHistoryStorage(getTempFilePath("cmd3"))
         );
 
         LoadReport report = mgr.readAddressBookWithReport(mixed);
@@ -126,10 +128,9 @@ public class StorageManagerTest {
 
     @Test
     public void readAddressBookWithReport_noArg_usesConfiguredPath() throws Exception {
-        // Arrange: stub AddressBookStorage that records the path it was called with
         class RecordingAddressBookStorage implements AddressBookStorage {
             final Path configuredPath;
-            private Path lastPath; // recorded when readAddressBookWithReport(Path) is called
+            private Path lastPath;
 
             RecordingAddressBookStorage(Path configuredPath) {
                 this.configuredPath = configuredPath;
@@ -156,17 +157,14 @@ public class StorageManagerTest {
 
             @Override
             public void saveAddressBook(ReadOnlyAddressBook addressBook, Path file) {
-                // no-op for this test
             }
 
             @Override
             public void saveAddressBook(ReadOnlyAddressBook addressBook) {
-                // no-op for this test
             }
 
             @Override
             public LoadReport readAddressBookWithReport(Path file) {
-                // record the path to prove delegation used getAddressBookFilePath()
                 this.lastPath = file;
                 return new LoadReport(
                         new LoadReport.ModelData(new seedu.address.model.AddressBook()),
@@ -184,15 +182,16 @@ public class StorageManagerTest {
         Path configured = getTempFilePath("delegation-ab.json");
         RecordingAddressBookStorage recordingAb = new RecordingAddressBookStorage(configured);
 
-        // Any prefs storage will do; it won't be touched by this call
         JsonUserPrefsStorage prefs = new JsonUserPrefsStorage(getTempFilePath("delegation-prefs.json"));
 
-        StorageManager mgr = new StorageManager(recordingAb, prefs);
+        StorageManager mgr = new StorageManager(
+                recordingAb,
+                prefs,
+                new JsonCommandHistoryStorage(getTempFilePath("delegation-cmd.json"))
+        );
 
-        // Act: call the no-arg method we want to cover
         LoadReport report = mgr.readAddressBookWithReport();
 
-        // Assert: report exists and, critically, the storage was called with its configured path
         Assertions.assertNotNull(report.getModelData().getAddressBook(), "Report should contain model data.");
         Assertions.assertEquals(configured, recordingAb.getLastPath(),
                 "No-arg readAddressBookWithReport() must delegate using getAddressBookFilePath().");

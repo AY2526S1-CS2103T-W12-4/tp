@@ -1,7 +1,6 @@
 package seedu.address;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -18,6 +17,7 @@ import seedu.address.commons.util.ConfigUtil;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.Logic;
 import seedu.address.logic.LogicManager;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.ReadOnlyAddressBook;
@@ -25,7 +25,9 @@ import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.util.SampleDataUtil;
 import seedu.address.storage.AddressBookStorage;
+import seedu.address.storage.CommandHistoryStorage;
 import seedu.address.storage.JsonAddressBookStorage;
+import seedu.address.storage.JsonCommandHistoryStorage;
 import seedu.address.storage.JsonUserPrefsStorage;
 import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
@@ -61,7 +63,9 @@ public class MainApp extends Application {
         UserPrefsStorage userPrefsStorage = new JsonUserPrefsStorage(config.getUserPrefsFilePath());
         UserPrefs userPrefs = initPrefs(userPrefsStorage);
         AddressBookStorage addressBookStorage = new JsonAddressBookStorage(userPrefs.getAddressBookFilePath());
-        storage = new StorageManager(addressBookStorage, userPrefsStorage);
+        CommandHistoryStorage commandHistoryStorage = new JsonCommandHistoryStorage(
+                userPrefs.getCommandHistoryFilePath());
+        storage = new StorageManager(addressBookStorage, userPrefsStorage, commandHistoryStorage);
 
         model = initModelManager(storage, userPrefs);
         logic = new LogicManager(model, storage);
@@ -74,32 +78,41 @@ public class MainApp extends Application {
         try {
             var dataPath = storageArg.getAddressBookFilePath();
             if (!Files.exists(dataPath)) {
-                logger.info("Creating a new data file " + dataPath + " populated with a sample AddressBook.");
                 ReadOnlyAddressBook sample = SampleDataUtil.getSampleAddressBook();
                 initialData = sample;
                 try {
                     storageArg.saveAddressBook(sample);
-                } catch (AccessDeniedException ade) {
-                    logger.warning(String.format("Could not save sample data to %s due to insufficient permissions.",
-                            dataPath));
-                } catch (IOException ioe) {
-                    logger.warning(String.format("Could not save sample data: %s", ioe.getMessage()));
+                } catch (IOException e) {
+                    logger.warning(String.format("Could not save sample data to %s.", dataPath));
                 }
             } else {
                 LoadReport report = storageArg.readAddressBookWithReport();
                 initialData = report.getModelData().getAddressBook();
                 logger.info("Invalid entries detected: " + report.getInvalids().size());
             }
-
         } catch (seedu.address.commons.exceptions.DataLoadingException e) {
-            logger.warning("Data file at " + storageArg.getAddressBookFilePath()
-                    + " could not be loaded. Will be starting with an empty AddressBook.");
+            logger.warning(
+                    "Problem while loading from the data file. Will be starting with the default AddressBook.");
             initialData = new seedu.address.model.AddressBook();
         } catch (Exception e) {
-            logger.warning("Unexpected error loading data: " + e.getMessage());
+            logger.warning("Unknown exception " + e + " detected. Will be starting with the default AddressBook.");
             initialData = new seedu.address.model.AddressBook();
         }
-        return new ModelManager(initialData, userPrefs);
+
+        Optional<CommandHistory> cmdHistoryOptional;
+        CommandHistory cmdHistory;
+        try {
+            cmdHistoryOptional = storageArg.readCommandHistory();
+            if (cmdHistoryOptional.isEmpty()) {
+                cmdHistory = new CommandHistory();
+            } else {
+                cmdHistory = cmdHistoryOptional.get();
+            }
+        } catch (DataLoadingException e) {
+            cmdHistory = new CommandHistory();
+        }
+
+        return new ModelManager(initialData, userPrefs, cmdHistory);
     }
 
     private void initLogging(Config cfg) {
@@ -122,7 +135,7 @@ public class MainApp extends Application {
 
         try {
             Optional<Config> configOptional = ConfigUtil.readConfig(configFilePathUsed);
-            if (!configOptional.isPresent()) {
+            if (configOptional.isEmpty()) {
                 logger.info("Creating new config file " + configFilePathUsed);
             }
             initializedConfig = configOptional.orElse(new Config());
@@ -229,7 +242,7 @@ public class MainApp extends Application {
         UserPrefs initializedPrefs;
         try {
             Optional<UserPrefs> prefsOptional = storageArg.readUserPrefs();
-            if (!prefsOptional.isPresent()) {
+            if (prefsOptional.isEmpty()) {
                 logger.info("Creating new preference file " + prefsFilePath);
             }
             initializedPrefs = prefsOptional.orElse(new UserPrefs());
@@ -283,6 +296,7 @@ public class MainApp extends Application {
         logger.info("============================ [ Stopping AddressBook ] =============================");
         try {
             storage.saveUserPrefs(model.getUserPrefs());
+            storage.saveCommandHistory(model.getCommandHistory());
         } catch (IOException e) {
             logger.severe("Failed to save preferences " + StringUtil.getDetails(e));
         }

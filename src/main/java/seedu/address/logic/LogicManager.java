@@ -53,6 +53,7 @@ public class LogicManager implements Logic {
 
         Command command = addressBookParser.parseCommand(commandText);
         CommandResult commandResult = command.execute(model);
+        model.getCommandHistory().add(commandText);
 
         if (isMutatingCommand(command)) {
             try {
