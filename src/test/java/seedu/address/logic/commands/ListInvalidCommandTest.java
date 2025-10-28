@@ -9,10 +9,7 @@ import java.util.function.Supplier;
 
 import org.junit.jupiter.api.Test;
 
-import seedu.address.model.AddressBook;
-import seedu.address.model.Model;
-import seedu.address.model.ModelManager;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.*;
 import seedu.address.storage.LoadReport;
 
 /**
@@ -21,7 +18,7 @@ import seedu.address.storage.LoadReport;
 public class ListInvalidCommandTest {
 
     private Model makeModel() {
-        return new ModelManager(new AddressBook(), new UserPrefs());
+        return new ModelManager(new AddressBook(), new UserPrefs(), new CommandHistory());
     }
 
     @Test

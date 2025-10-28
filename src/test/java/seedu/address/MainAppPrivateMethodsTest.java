@@ -3,6 +3,7 @@ package seedu.address;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import seedu.address.commons.core.Config;
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.storage.LoadReport;
@@ -50,6 +52,11 @@ class MainAppPrivateMethodsTest {
         }
 
         @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("dummy.json");
+        }
+
+        @Override
         public Path getAddressBookFilePath() {
             return Path.of("dummy.json");
         }
@@ -66,6 +73,14 @@ class MainAppPrivateMethodsTest {
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook ab) { }
+
+        @Override
+        public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) throws IOException { }
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook ab, Path path) { }

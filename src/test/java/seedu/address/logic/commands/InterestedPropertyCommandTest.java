@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
@@ -24,7 +25,7 @@ public class InterestedPropertyCommandTest {
 
     @BeforeEach
     public void setUp() {
-        model = new ModelManager(getTypicalCombinedAddressBook(), new UserPrefs());
+        model = new ModelManager(getTypicalCombinedAddressBook(), new UserPrefs(), new CommandHistory());
     }
 
     @Test

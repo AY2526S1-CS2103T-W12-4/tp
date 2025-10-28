@@ -18,7 +18,7 @@ public interface CommandHistoryStorage {
     Path getCommandHistoryFilePath();
 
     /**
-     * Returns UserPrefs data from storage.
+     * Returns CommandHistory data from storage.
      * Returns {@code Optional.empty()} if storage file is not found.
      *
      * @throws DataLoadingException if the loading of data from preference file failed.

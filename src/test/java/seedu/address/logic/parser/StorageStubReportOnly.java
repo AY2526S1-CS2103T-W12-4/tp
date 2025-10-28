@@ -1,9 +1,11 @@
 package seedu.address.logic.parser;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.DataLoadingException;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
 import seedu.address.storage.LoadReport;
@@ -50,6 +52,21 @@ final class StorageStubReportOnly implements Storage {
 
     @Override
     public void saveAddressBook(ReadOnlyAddressBook ab) {
+    }
+
+    @Override
+    public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+        return Optional.empty();
+    }
+
+    @Override
+    public void saveCommandHistory(CommandHistory commandHistory) throws IOException {
+
+    }
+
+    @Override
+    public Path getCommandHistoryFilePath() {
+        return Path.of("dummy.json");
     }
 
     @Override

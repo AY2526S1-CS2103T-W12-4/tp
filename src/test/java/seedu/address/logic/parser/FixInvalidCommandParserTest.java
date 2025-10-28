@@ -3,13 +3,16 @@ package seedu.address.logic.parser;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.testutil.Assert.assertThrows;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
+import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.logic.commands.FixInvalidCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
@@ -56,6 +59,21 @@ class FixInvalidCommandParserTest {
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook ab) {}
+
+        @Override
+        public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) throws IOException {
+
+        }
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("dummy.json");
+        }
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook ab, Path path) {}

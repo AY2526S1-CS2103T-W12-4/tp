@@ -13,10 +13,7 @@ import org.junit.jupiter.api.Test;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.logic.commands.ListInvalidCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.*;
 import seedu.address.storage.LoadReport;
 import seedu.address.storage.Storage;
 
@@ -56,6 +53,21 @@ class AddressBookParserWithStorageTest {
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook addressBook) {}
+
+        @Override
+        public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) throws IOException {
+
+        }
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("history.json");
+        }
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook addressBook, Path p) {}

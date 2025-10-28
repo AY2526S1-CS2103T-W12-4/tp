@@ -13,13 +13,15 @@ import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.Messages;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.property.Property;
 
 public class DeletePropertyCommandTest {
-    private Model model = new ModelManager(getTypicalPropertiesAddressBook(), new UserPrefs());
+    private final Model model = new ModelManager(getTypicalPropertiesAddressBook(), new UserPrefs(),
+            new CommandHistory());
 
     @Test
     public void execute_validIndexUnfilteredList_success() {
@@ -32,7 +34,8 @@ public class DeletePropertyCommandTest {
         String expectedMessage = String.format(DeletePropertyCommand.MESSAGE_DELETE_PROPERTY_SUCCESS,
                 Messages.formatProperty(propertyToDelete));
 
-        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs());
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(),
+                model.getCommandHistory());
         expectedModel.deleteProperty(propertyToDelete);
 
         assertCommandSuccess(deletePropertyCommand, model, expectedMessage, expectedModel);

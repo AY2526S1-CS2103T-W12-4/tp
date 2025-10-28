@@ -5,9 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -17,6 +19,7 @@ import javafx.collections.ObservableList;
 import seedu.address.commons.core.GuiSettings;
 import seedu.address.commons.exceptions.DataLoadingException;
 import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.CommandHistory;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.ReadOnlyUserPrefs;
@@ -79,6 +82,11 @@ public class FixInvalidCommandTest {
 
         @Override
         public ReadOnlyAddressBook getAddressBook() {
+            return null;
+        }
+
+        @Override
+        public CommandHistory getCommandHistory() {
             return null;
         }
 
@@ -179,6 +187,19 @@ public class FixInvalidCommandTest {
         public void saveAddressBook(ReadOnlyAddressBook ab) {}
 
         @Override
+        public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) throws IOException {}
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("dummy.json");
+        }
+
+        @Override
         public void saveAddressBook(ReadOnlyAddressBook ab, Path path) {}
 
         @Override
@@ -237,6 +258,21 @@ public class FixInvalidCommandTest {
         public void saveAddressBook(ReadOnlyAddressBook ab) {}
 
         @Override
+        public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) throws IOException {
+
+        }
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return null;
+        }
+
+        @Override
         public void saveAddressBook(ReadOnlyAddressBook ab, Path path) {}
 
         @Override
@@ -288,6 +324,19 @@ public class FixInvalidCommandTest {
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook ab) {}
+
+        @Override
+        public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) throws IOException { }
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("dummy.json");
+        }
 
         @Override
         public void saveAddressBook(ReadOnlyAddressBook ab, Path path) {}
@@ -440,6 +489,22 @@ public class FixInvalidCommandTest {
             }
             @Override
             public void saveAddressBook(seedu.address.model.ReadOnlyAddressBook ab) { }
+
+            @Override
+            public Optional<CommandHistory> readCommandHistory() throws DataLoadingException {
+                return Optional.empty();
+            }
+
+            @Override
+            public void saveCommandHistory(CommandHistory commandHistory) throws IOException {
+
+            }
+
+            @Override
+            public Path getCommandHistoryFilePath() {
+                return Path.of("dummy.json");
+            }
+
             @Override
             public void saveAddressBook(seedu.address.model.ReadOnlyAddressBook ab,
                                         java.nio.file.Path path) { }

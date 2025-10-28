@@ -13,11 +13,7 @@ import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.commons.exceptions.DataLoadingException;
-import seedu.address.model.AddressBook;
-import seedu.address.model.ModelManager;
-import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.ReadOnlyUserPrefs;
-import seedu.address.model.UserPrefs;
+import seedu.address.model.*;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
@@ -41,22 +37,55 @@ public class MainAppInitModelManagerTest {
             this.path = path;
         }
 
-        @Override public LoadReport overwriteRawEntryAtIndex(int i, Person person) {
+        @Override
+        public LoadReport overwriteRawEntryAtIndex(int i, Person person) {
             return report; }
-        @Override public Optional<UserPrefs> readUserPrefs() {
-            return Optional.empty(); }
-        @Override public void saveUserPrefs(ReadOnlyUserPrefs prefs) {
+
+        @Override
+        public Optional<UserPrefs> readUserPrefs() {
+            return Optional.empty();
         }
-        @Override public Path getUserPrefsFilePath() {
-            return Path.of("x"); }
-        @Override public Path getAddressBookFilePath() {
-            return path; }
-        @Override public Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException {
-            return Optional.empty(); }
-        @Override public Optional<ReadOnlyAddressBook> readAddressBook(Path path) throws DataLoadingException {
-            return Optional.empty(); }
-        @Override public void saveAddressBook(ReadOnlyAddressBook ab) { }
-        @Override public void saveAddressBook(ReadOnlyAddressBook ab, Path path) { }
+
+        @Override
+        public void saveUserPrefs(ReadOnlyUserPrefs prefs) {}
+
+        @Override
+        public Optional<CommandHistory> readCommandHistory() {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) {}
+
+        @Override
+        public Path getUserPrefsFilePath() {
+            return Path.of("x");
+        }
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("x");
+        }
+
+        @Override
+        public Path getAddressBookFilePath() {
+            return path;
+        }
+
+        @Override
+        public Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<ReadOnlyAddressBook> readAddressBook(Path path) throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveAddressBook(ReadOnlyAddressBook ab) {}
+        @Override
+        public void saveAddressBook(ReadOnlyAddressBook ab, Path path) {}
         @Override public LoadReport readAddressBookWithReport() {
             return report; }
         @Override public LoadReport readAddressBookWithReport(Path path) {
@@ -66,27 +95,67 @@ public class MainAppInitModelManagerTest {
     private static class StorageThrowsAtPath implements Storage {
         private final Path path;
         StorageThrowsAtPath(Path path) {
-            this.path = path; }
+            this.path = path;
+        }
 
-        @Override public LoadReport overwriteRawEntryAtIndex(int i, Person person) {
-            return null; }
-        @Override public Optional<UserPrefs> readUserPrefs() {
-            return Optional.empty(); }
-        @Override public void saveUserPrefs(ReadOnlyUserPrefs prefs) { }
-        @Override public Path getUserPrefsFilePath() {
-            return Path.of("x"); }
-        @Override public Path getAddressBookFilePath() {
-            return path; }
-        @Override public Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException {
-            return Optional.empty(); }
-        @Override public Optional<ReadOnlyAddressBook> readAddressBook(Path path) throws DataLoadingException {
-            return Optional.empty(); }
-        @Override public void saveAddressBook(ReadOnlyAddressBook ab) { }
-        @Override public void saveAddressBook(ReadOnlyAddressBook ab, Path path) { }
-        @Override public LoadReport readAddressBookWithReport() throws DataLoadingException {
+        @Override
+        public LoadReport overwriteRawEntryAtIndex(int i, Person person) {
+            return null;
+        }
+        @Override
+        public Optional<UserPrefs> readUserPrefs() {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveUserPrefs(ReadOnlyUserPrefs prefs) { }
+
+        @Override
+        public Optional<CommandHistory> readCommandHistory() {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveCommandHistory(CommandHistory commandHistory) {}
+
+        @Override
+        public Path getUserPrefsFilePath() {
+            return Path.of("x");
+        }
+
+        @Override
+        public Path getCommandHistoryFilePath() {
+            return Path.of("x");
+        }
+
+        @Override
+        public Path getAddressBookFilePath() {
+            return path;
+        }
+
+        @Override
+        public Optional<ReadOnlyAddressBook> readAddressBook() throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<ReadOnlyAddressBook> readAddressBook(Path path) throws DataLoadingException {
+            return Optional.empty();
+        }
+
+        @Override
+        public void saveAddressBook(ReadOnlyAddressBook ab) { }
+
+        @Override
+        public void saveAddressBook(ReadOnlyAddressBook ab, Path path) { }
+
+        @Override
+        public LoadReport readAddressBookWithReport() throws DataLoadingException {
             throw new DataLoadingException(new RuntimeException("fail"));
         }
-        @Override public LoadReport readAddressBookWithReport(Path path) throws DataLoadingException {
+
+        @Override
+        public LoadReport readAddressBookWithReport(Path path) throws DataLoadingException {
             throw new DataLoadingException(new RuntimeException("fail"));
         }
     }

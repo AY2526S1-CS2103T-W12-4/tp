@@ -103,11 +103,7 @@ public class MainApp extends Application {
         CommandHistory cmdHistory;
         try {
             cmdHistoryOptional = storageArg.readCommandHistory();
-            if (cmdHistoryOptional.isEmpty()) {
-                cmdHistory = new CommandHistory();
-            } else {
-                cmdHistory = cmdHistoryOptional.get();
-            }
+            cmdHistory = cmdHistoryOptional.orElseGet(CommandHistory::new);
         } catch (DataLoadingException e) {
             cmdHistory = new CommandHistory();
         }
