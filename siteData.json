@@ -118,6 +118,7 @@
         "setting-an-owned-property-for-a-person-setop": "Setting an owned Property for a Person : setop",
         "setting-an-interested-property-for-a-person-setip": "Setting an interested property for a Person : setip",
         "locating-persons-by-name-find": "Locating Persons by name: find",
+        "locating-properties-by-property-name-findp": "Locating Properties by property name: findp",
         "deleting-a-person-delete": "Deleting a person : delete",
         "deleting-a-property-deletep": "Deleting a property : deletep",
         "clearing-all-entries-clear": "Clearing all entries : clear",
