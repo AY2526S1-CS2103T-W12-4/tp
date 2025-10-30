@@ -114,6 +114,7 @@
         "adding-a-person-add": "Adding a person: add",
         "adding-a-property-addp": "Adding a property: addp",
         "listing-all-persons-list": "Listing all persons : list",
+        "listing-all-properties-listp": "Listing all properties : listp",
         "editing-a-property-editp": "Editing a property : editp",
         "editing-a-person-edit": "Editing a person : edit",
         "setting-an-owned-property-for-a-person-setop": "Setting an owned Property for a Person : setop",
