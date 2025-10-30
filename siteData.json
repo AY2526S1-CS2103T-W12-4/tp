@@ -107,6 +107,8 @@
       "title": "User Guide",
       "headings": {
         "welcome-to-estatesearch": "Welcome to EstateSearch!",
+        "how-to-use-this-user-guide": "How to use this User Guide",
+        "alert-boxes": "Alert Boxes",
         "getting-started": "Getting Started",
         "estatesearch-command-summary": "EstateSearch Command Summary",
         "features": "Features",
@@ -129,7 +131,7 @@
         "saving-the-data": "Saving the data",
         "editing-the-data-file": "Editing the data file",
         "faq": "FAQ",
-        "q-does-each-person-have-a-fixed-index-a-no-the-index-of-each-person-depends-on-the-current-filtered-list-showed-in-the-gui-the-index-of-a-person-may-change-when-the-list-is-filtered-using-the-find-command-or-when-persons-are-added-or-deleted": "Q: Does each person have a fixed index?\nA: No. The index of each person depends on the current filtered list showed in the GUI. The index of a person may change when the list is filtered using the find command or when persons are added or deleted.",
+        "q-do-i-need-any-prior-programming-knowledge-to-use-estatesearch-a-estatesearch-does-not-require-any-prior-programming-knowledge": "Q: Do I need any prior programming knowledge to use EstateSearch?\nA: EstateSearch does not require any prior programming knowledge",
         "known-issues": "Known issues"
       },
       "headingKeywords": {}
