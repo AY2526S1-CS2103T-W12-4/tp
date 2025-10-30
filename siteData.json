@@ -61,8 +61,13 @@
         "glossary": "Glossary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
-        "deleting-a-person": "Deleting a person",
-        "saving-data": "Saving data"
+        "deleting-a-client": "Deleting a client",
+        "saving-data": "Saving data",
+        "appendix-effort": "Appendix: Effort",
+        "difficulty-level-and-challenges": "Difficulty Level and Challenges",
+        "effort-required": "Effort Required",
+        "achievements": "Achievements",
+        "reuse-and-efficiency": "Reuse and Efficiency"
       },
       "headingKeywords": {}
     },
