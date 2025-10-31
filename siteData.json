@@ -141,8 +141,8 @@
         "editing-the-data-file": "Editing the data file",
         "faq": "FAQ",
         "glossary": "Glossary",
-        "known-issues": "Known issues",
-        "acceptable-value-range-for-parameters": "Acceptable Value Range for Parameters"
+        "acceptable-value-ranges-for-parameters": "Acceptable Value Ranges for Parameters",
+        "known-issues": "Known issues"
       },
       "headingKeywords": {}
     },
