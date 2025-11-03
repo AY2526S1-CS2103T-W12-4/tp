@@ -290,6 +290,9 @@ Adds a client to EstateSearch.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
+- Clients are considered duplicates if they have the same `NAME`, `PHONE`, `ADDRESS`, and `EMAIL` field. Duplicates
+are not allowed and an error message will be shown.
+
 <box type="tip">
 
 **Tip:** A client can have any number of tags (0 or more)
@@ -401,6 +404,8 @@ Adds a property to EstateSearch.
 Format: `addp n/NAME a/ADDRESS pr/PRICE`
 
 - Prices can only be input as integers with no decimal points. For example, `pr/800000` is valid while `pr/800000.50` is not valid.
+- Properties are considered duplicates if they have the same `NAME` or `ADDRESS` field as one of the properties that already exist in the property list.
+Duplicate properties are not allowed and an error message will be shown
 
 Examples:
 
