@@ -130,15 +130,11 @@ On macOS:
 5. Type a command in the command box and press the <kbd>ENTER</kbd> key to execute it. e.g. typing **`help`** and pressing the <kbd>ENTER</kbd> key will open the help window.<br>
    Some example commands you can try:
 
-   - `list` : Lists all contacts.
-
+    * `list` : Lists all contacts.
     * `add n/Edward Lim p/98765432 e/edwardl@gmail.com a/John street, block 123, #01-01` : Adds a client named `Edward Lim` to EstateSearch.
-
     * `delete 3` : Deletes the 3rd client shown in the current list.
-
     * `clear` : Deletes all clients and properties
-
-   - `exit` : Exits the app.
+    * `exit` : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
 
@@ -171,7 +167,7 @@ property data.
 | [**Managing Properties**](#managing-properties)                                            |                                                                                                                                                                       |
 | [**Add Property**](#adding-a-property-addp)                                                | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`                                                              |
 | [**Delete Property**](#deleting-a-property--deletep)                                       | `deletep INDEX`<br> e.g., ``delete`p 3`                                                                                                                               |
-| [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                        |
+| [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                          |
 | [**Find Property**](#locating-properties-by-property-name-findp)                           | `findp n/PROPERTY` <br> e.g., `findp n/Sunshine Condo`                                                                                                                |
 | [**List Property**](#listing-all-properties--listp)                                        | `listp`                                                                                                                                                               |
 | [**Managing Client-Property relationships**](#managing-client-property-relationships)      |                                                                                                                                                                       |
@@ -262,7 +258,6 @@ Clears all entries of clients and properties from EstateSearch.
 Format: `clear`
 
 ![result for 'clear'](images/results/clear.png)
-*Result from using the command `clear`*
 
 <box type="warning">
 
@@ -290,6 +285,9 @@ Adds a client to EstateSearch.
 
 Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]…​`
 
+- Clients are considered duplicates if they have the same `NAME`, `PHONE`, `ADDRESS`, and `EMAIL` field. Duplicates
+are not allowed and an error message will be shown.
+
 <box type="tip">
 
 **Tip:** A client can have any number of tags (0 or more)
@@ -301,7 +299,6 @@ Examples:
 - `add n/Betsy Crowe t/client e/betsycrowe@example.com a/Changi p/1234567 t/buyer`
 
 ![Adding a client called Betsy Crowe](images/results/add.png)
-*Result from using the command `add n/Betsy Crowe t/client e/betsycrowe@example.com a/Changi p/1234567 t/buyer`*
 
 ### Deleting a client : `delete`
 
@@ -325,10 +322,9 @@ Format: `delete INDEX` or `delete e/EMAIL`
 Examples:
 
 - `list` followed by `delete 2` deletes the 2nd client in EstateSearch.
-- `find n/Betsy` followed by `delete 1` deletes the 1st client in the results of the `find` command.
+- `delete 7` deletes the 7th client in the displayed client list.
 
 ![result for 'delete 7'](images/results/delete.png)
-*Result from using the command `delete 7` where Betsy Crowe was the 7th client in the client list*
 
 <box type="info">
 
@@ -352,10 +348,14 @@ Format: `edit INDEX [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]…​`
 Examples:
 
 - `edit 1 p/91234567 e/johndoe@example.com` Edits the phone number and email address of the 1st client to be `91234567` and `johndoe@example.com` respectively.
-- `edit 2 n/Betsy Crower t/` Edits the name of the 2nd client to be `Betsy Crower` and clears all existing tags.
+- `edit 1 n/Alex Yeoh p/91234567` Edits the name of the 1st client to be `Alex Yeoh` with phone number `91234567`.
 
 ![result for 'edit '](images/results/edit.png)
-*Result from using the command `edit 1 n/Alex Yeoh p/91234567`*
+
+<box type="info">
+**Info**:
+After editing a client's details, the client list will be updated to show all clients and not just the filtered view
+</box>
 
 ### Locating clients by name: `find`
 
@@ -369,17 +369,13 @@ Format: `find n/NAME or find t/TAG`
 - Substring matching will be used e.g. `Han` will match `Hans` and `Hannah`
 - Clients matching at least one keyword will be returned (i.e. `OR` search).
   e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-- Examples:
-- `find t/client` returns all contacts tagged as clients
-- `find n/John` returns all contacts whose names contain `John` (case-insensitive)
+- Exactly one parameter is allowed, either `n/NAME` or `t/TAG` or else an error message will be shown 
 
 Examples:
-
-- `find n/John` returns `john` and `John Doe`
-- `find t/buyer` returns clients who have the tag `buyer` <br>
+- `find n/John` returns all contacts whose names contain `John` (case-insensitive)
+- `find t/buyer` returns all contacts tagged as buyer
 
 ![result for 'find t/buyer'](images/results/find.png)
-*Result from using the command `find t/buyer`*
 
 ### Listing all clients : `list`
 
@@ -388,7 +384,6 @@ Shows a list of all clients in EstateSearch.
 Format: `list`
 
 ![Listing all client](images/results/list.png)
-*Result from using the command `list`*
 
 ## Managing Properties
 This section contains the features and commands that will allow you to manage your property portfolio in EstateSearch.
@@ -401,6 +396,11 @@ Adds a property to EstateSearch.
 Format: `addp n/NAME a/ADDRESS pr/PRICE`
 
 - Prices can only be input as integers with no decimal points. For example, `pr/800000` is valid while `pr/800000.50` is not valid.
+- Properties are considered duplicates if they have the same `NAME` or `ADDRESS` field as one of the properties that already exist in the property list.
+Duplicate properties are not allowed and an error message will be shown
+- Adding a property with a similar name to an existing property but differing by spaces will produce a warning. For example, if there already exists a property with the name "City Loft",
+adding a property with the parameter "n/City  Loft" will be allowed, but a warning message will be shown.
+
 
 Examples:
 
@@ -408,7 +408,6 @@ Examples:
 - `addp n/Ocean View HDB a/456, Ocean Ave, 654321 pr/1000000`
 
 ![Adding a property called Ocean View](images/results/addp.png)
-*Result from using the command `addp n/Ocean View HDB a/456, Ocean Ave, 654321 pr/1000000`*
 
 ### Deleting a property : `deletep`
 
@@ -432,7 +431,6 @@ Examples:
 - `deletep 2` deletes the 2nd property in the current displayed property list.
 
 ![result for 'deletep 2'](images/results/deletep.png)
-*Result from using the command `deletep 2` where Ocean View HDB was the second property in the displayed property list*
 
 <box type="info">
 
@@ -449,13 +447,18 @@ Format: `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…`
 - Edits the property at the specified `INDEX`. `INDEX` here refers to the index number shown in the displayed property list. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
+- Properties cannot be edited to have the same `NAME` as itself
 
 Examples:
 
-- `editp 2 n/Sunshine Condo pr/120000 a/ 123 Testing Rd` Edits the property name, price and address to be `Sunshine Condo`, `120000` and `123 Testing Rd` respectively
+- `editp 2 n/Sunshine Condo a/123 Testing Rd pr/1000000` Edits the property name, price and address to be `Sunshine Condo`, `1000000` and `123 Testing Rd` respectively
 
 ![Editing a property](images/results/editp.png)
-*Result from using the command `editp 2 n/Sunshine Condo a/123 Testing Rd pr/1000000`*
+
+<box type="info">
+**Info**:
+After editing a property's details, the property list will be updated to show all properties and not just the filtered view
+</box>
 
 ### Locating properties by property name: `findp`
 
@@ -467,7 +470,7 @@ Format: `findp n/PROPERTY NAME`
 - The order of the keywords does not matter. e.g. `Sunshine Lodge` will match `Lodge Sunshine`
 - Only the property name is searched.
 - findp uses substring matching for keywords. e.g. `Sun` matches `Sunflower Mansion` and `Sunshine Lodge`
-- Properties matching at least one keyword will be returned (i.e. `OR` search).
+- Properties matching at least one keyword will be returned (i.e. `OR` search)
   e.g. `Sunshine Lodge` will return `Sunshine Home`, `Lodge Farm`
 - `findp n/Sunshine` returns all properties whose property names contain `sunshine` (case-insensitive)
 
@@ -475,8 +478,7 @@ Examples:
 
 - `findp n/Sunshine` returns `sunshine` and `Sunshine Lodge`
 
-![result for 'findp n/Hillside'](images/results/findp.png)
-*Result from using the command `findp n/Sunshine`*
+![result for 'findp n/Sunshine'](images/results/findp.png)
 
 ### Listing all properties : `listp`
 
@@ -485,7 +487,6 @@ Shows a list of all properties in EstateSearch.
 Format: `listp`
 
 ![Listing all properties](images/results/listp.png)
-*Result from using the command `listp`*
 
 ## Managing client-property relationships
 With EstateSearch, you can efficiently manage and visualize the relationships between your clients and properties.
@@ -504,15 +505,14 @@ Format: `setop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - The specified client must not already own a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
 - Repeating the command with the same property for the same client will throw an error (e.g. This person already owns the property: PROPERTY_NAME)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
-- 'setop 1 n/Marina Bay Apt 12F' — adds **Marina Bay Apt 12F** to the 1st client’s owned properties.
-- list followed by 'setop 3 n/Choa Chu Kang Landed Property' — adds **Choa Chu Kang Landed Property** to the 3rd client’s owned properties.
+- `setop 1 n/Marina Bay Apt 12F` — adds **Marina Bay Apt 12F** to the 1st client’s owned properties.
+- `setop 4 n/Hillside Villa` — adds **Hillside Villa** to the 4th client’s owned properties.
   
 ![result for 'setop 4 n/Hillside Villa'](images/results/setop.png)
-*Result from using the command `setop 4 n/Hillside Villa`*
 
 <box type="info">
 
@@ -533,12 +533,12 @@ Format: `setip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - The specified client must not already be interested in a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
 - Repeating the command with the same property for the same client will throw an error (e.g. This person is already marked as interested in this property: PROPERTY_NAME)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
 - `setip 2 n/Sunshine Condo` — adds **Sunshine Condo** to the 2nd client’s interested properties
-- list followed by `setip 4 n/Ocean View HDB` — adds **Ocean View** to the 4th client’s interested properties
+- list followed by `setip 1 n/Hillside Villa` — adds **Hillside Villa** to the 1st client’s interested properties
  
 ![result for 'setip 1 n/Hillside Villa'](images/results/setip.png)
 
@@ -560,14 +560,14 @@ Format: `deleteop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already own a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
 - `deleteop 2 n/City Loft` - removes **City Loft** from the 2nd client's list of owned properties
-- list followed by `deleteop 4 n/Ocean View HDB` — removes **Ocean View** from the 4th client’s list of owned properties
+- list followed by `deleteop 3 n/Sunshine Villa` — removes **Sunshine Villa** from the 3rd client’s list of owned properties
 
-![result for 'deleteop'](images/results/deleteop.png)
+![result for 'deleteop 3 n/Sunshine Villa'](images/results/deleteop.png)
 
 <box type="info">
 
@@ -585,14 +585,14 @@ Format: `deleteip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already be interested in a property with the exact same `PROPERTY_NAME`, otherwise an error will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
 - `deleteip 2 n/City Loft` - removes **City Loft** from the 2nd client's list of interested properties
-- list followed by `deleteip 4 n/Ocean View HDB` — removes **Ocean View** from the 4th client’s list of interested properties
+- list followed by `deleteip 1 n/Sunshine Villa` — removes **Sunshine Villa** from the 1st client’s list of interested properties
 
-![result for 'deleteip'](images/results/deleteip.png)
+![result for 'deleteip 1 n/Sunshine Villa'](images/results/deleteip.png)
 
 <box type="info">
 
@@ -640,15 +640,15 @@ contains the data of your previous EstateSearch home folder.
 The index may change when the list is filtered using the `find` command or when a client or a property is deleted.<br>
 
 **Q**: Do I need any prior programming knowledge to use EstateSearch?<br>
-**A**: EstateSearch does not require any prior programming knowledge<br>
+**A**: EstateSearch does not require any prior programming knowledge.<br>
 
 **Q**: Which operating systems can EstateSearch run on?<br>
 **A**: EstateSearch can run on Windows, macOS, and Linux, as long as Java `17` is installed and used.<br>
 
 **Q**: How are duplicates determined for clients and properties?<br>
-**A**: Clients are considered duplicates if they have the same, <code>NAME</code>, <code>PHONE</code>,
-<code>EMAIL</code>, and <code>ADDRESS</code> field. Properties are considered duplicates if they have the
-same <code>PROPERTY NAME</code><br>
+**A**: Clients are considered duplicates if they have the same, `NAME`, `PHONE`,
+`EMAIL`, and `ADDRESS` field. Properties are considered duplicates if they have the
+same `PROPERTY NAME`. Comparisons are case-insensitive.<br>
 
 **Q**: Does each client have a fixed index?<br>
 **A**: No. The index of each client depends on the current filtered list showed in the GUI. The index of a client may change when the list is filtered using the `find` command or when clients are added or deleted.
