@@ -352,6 +352,11 @@ Examples:
 
 ![result for 'edit '](images/results/edit.png)
 
+<box type="info">
+**Info**:
+After editing a client's details, the client list will be updated to show all clients and not just the filtered view
+</box>
+
 ### Locating clients by name: `find`
 
 Finds contacts by either name or tag criteria.
@@ -450,6 +455,11 @@ Examples:
 
 ![Editing a property](images/results/editp.png)
 
+<box type="info">
+**Info**:
+After editing a property's details, the property list will be updated to show all properties and not just the filtered view
+</box>
+
 ### Locating properties by property name: `findp`
 
 Finds properties by property name.
@@ -477,7 +487,6 @@ Shows a list of all properties in EstateSearch.
 Format: `listp`
 
 ![Listing all properties](images/results/listp.png)
-*Result from using the command `listp`*
 
 ## Managing client-property relationships
 With EstateSearch, you can efficiently manage and visualize the relationships between your clients and properties.
