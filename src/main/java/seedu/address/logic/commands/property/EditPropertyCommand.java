@@ -85,22 +85,28 @@ public class EditPropertyCommand extends Command {
             throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
 
-        String editedRaw = editedProperty.getPropertyName().getFullName();
-        List<Property> others = model.getAddressBook().getPropertyList().stream()
-                .filter(p -> p != propertyToEdit)
-                .toList();
-        Optional<Property> caseClash = others.stream()
-                .filter(p -> p.getPropertyName().getFullName().equalsIgnoreCase(editedRaw))
-                .findFirst();
-        if (caseClash.isPresent()) {
-            throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
-        }
+        boolean nameEdited = editPropertyDescriptor.getPropertyName().isPresent();
+        Optional<Property> spaceOnlyClash = Optional.empty();
 
-        String editedLoose = PropertyName.canonicalLoose(editedRaw);
-        Optional<Property> spaceOnlyClash = others.stream()
-                .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().getFullName()).equals(editedLoose))
-                .filter(p -> !p.getPropertyName().getFullName().equalsIgnoreCase(editedRaw))
-                .findFirst();
+        if (nameEdited) {
+            String editedRaw = editedProperty.getPropertyName().getFullName();
+            List<Property> others = model.getAddressBook().getPropertyList().stream()
+                    .filter(p -> p != propertyToEdit)
+                    .toList();
+
+            Optional<Property> caseClash = others.stream()
+                    .filter(p -> p.getPropertyName().getFullName().equalsIgnoreCase(editedRaw))
+                    .findFirst();
+            if (caseClash.isPresent()) {
+                throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
+            }
+
+            String editedLoose = PropertyName.canonicalLoose(editedRaw);
+            spaceOnlyClash = others.stream()
+                    .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().getFullName()).equals(editedLoose))
+                    .filter(p -> !p.getPropertyName().getFullName().equalsIgnoreCase(editedRaw))
+                    .findFirst();
+        }
 
         model.setProperty(propertyToEdit, editedProperty);
         model.updatePropertyInAllPersons(propertyToEdit, editedProperty);
