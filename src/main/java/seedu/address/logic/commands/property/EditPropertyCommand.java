@@ -73,15 +73,33 @@ public class EditPropertyCommand extends Command {
         Property propertyToEdit = lastShownList.get(index.getZeroBased());
         Property editedProperty = createEditedProperty(propertyToEdit, editPropertyDescriptor);
 
+        if (editPropertyDescriptor.getPropertyName().isPresent()) {
+            String cur = propertyToEdit.getPropertyName().getFullName();
+            String neu = editPropertyDescriptor.getPropertyName().get().getFullName();
+            if (neu.equalsIgnoreCase(cur)) {
+                throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
+            }
+        }
+
         if (!propertyToEdit.isSameProperty(editedProperty) && model.hasProperty(editedProperty)) {
             throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
         }
 
-        String newKey = PropertyName.canonicalLoose(editedProperty.getPropertyName().toString());
-        Optional<Property> similar = model.getAddressBook().getPropertyList().stream()
+        String editedRaw = editedProperty.getPropertyName().getFullName();
+        List<Property> others = model.getAddressBook().getPropertyList().stream()
                 .filter(p -> p != propertyToEdit)
-                .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().toString()).equals(newKey))
-                .filter(p -> !p.getPropertyName().equals(editedProperty.getPropertyName()))
+                .toList();
+        Optional<Property> caseClash = others.stream()
+                .filter(p -> p.getPropertyName().getFullName().equalsIgnoreCase(editedRaw))
+                .findFirst();
+        if (caseClash.isPresent()) {
+            throw new CommandException(MESSAGE_DUPLICATE_PROPERTY);
+        }
+
+        String editedLoose = PropertyName.canonicalLoose(editedRaw);
+        Optional<Property> spaceOnlyClash = others.stream()
+                .filter(p -> PropertyName.canonicalLoose(p.getPropertyName().getFullName()).equals(editedLoose))
+                .filter(p -> !p.getPropertyName().getFullName().equalsIgnoreCase(editedRaw))
                 .findFirst();
 
         model.setProperty(propertyToEdit, editedProperty);
@@ -89,10 +107,10 @@ public class EditPropertyCommand extends Command {
         model.updateFilteredPropertyList(PREDICATE_SHOW_ALL_PROPERTIES);
 
         String msg = String.format(MESSAGE_EDIT_PROPERTY_SUCCESS, Messages.formatProperty(editedProperty));
-        if (similar.isPresent()) {
+        if (spaceOnlyClash.isPresent()) {
             msg += String.format(
                     "\nWarning: A similar property name already exists: \"%s\" (differs only by spacing/case).",
-                    similar.get().getPropertyName().toString());
+                    spaceOnlyClash.get().getPropertyName().toString());
         }
 
         return new CommandResult(msg);
