@@ -7,16 +7,16 @@ import java.util.Arrays;
 import seedu.address.logic.commands.person.FindCommand;
 import seedu.address.logic.parser.Parser;
 import seedu.address.logic.parser.exceptions.ParseException;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.TagContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 
 /**
  * Parses input arguments and creates a new FindCommand object
  */
 public class FindCommandParser implements Parser<FindCommand> {
-    private static final String TAG_VALIDATION_REGEX = "^[a-zA-Z0-9\\s]+$";
-
-    /**
+        /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns a FindCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
@@ -36,8 +36,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (nameArgs.isEmpty()) {
                 throw new ParseException("No name provided after n/");
             }
-            if (!nameArgs.matches(TAG_VALIDATION_REGEX)) {
-                throw new ParseException("Client name can only contain letters, numbers, and spaces");
+            if (!Name.isValidName(nameArgs)) {
+                throw new ParseException(Name.MESSAGE_CONSTRAINTS);
             }
             String[] nameKeywords = nameArgs.split("\\s+");
             return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords)), "name", nameArgs);
@@ -47,8 +47,8 @@ public class FindCommandParser implements Parser<FindCommand> {
                 throw new ParseException("No tag provided after t/");
             }
 
-            if (!tagArgs.matches(TAG_VALIDATION_REGEX)) {
-                throw new ParseException("Tag names can only contain letters, numbers, and spaces");
+            if (!Tag.isValidTagName(tagArgs)) {
+                throw new ParseException(Tag.MESSAGE_CONSTRAINTS);
             }
 
             String[] tagKeywords = tagArgs.split("\\s+");
