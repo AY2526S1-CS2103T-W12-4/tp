@@ -18,7 +18,9 @@ public class PropertyNameTest {
     public void equals_sameValue_returnsTrue() {
         PropertyName n1 = new PropertyName("Sunny Villa");
         PropertyName n2 = new PropertyName("Sunny Villa");
+        PropertyName n3 = new PropertyName("Sunny viLla");
         assertEquals(n1, n2);
+        assertEquals(n1, n3);
         assertEquals(n1.hashCode(), n2.hashCode());
     }
 

@@ -10,7 +10,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import seedu.address.logic.commands.person.FindCommand;
+import seedu.address.model.person.Name;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
+import seedu.address.model.tag.Tag;
 
 public class FindCommandParserTest {
 
@@ -40,12 +42,27 @@ public class FindCommandParserTest {
     @Test
     public void parse_nameAndTagCombined_throwsParseException() {
         assertParseFailure(parser, "n/ t/", FindCommandParser.MESSAGE_TOO_MANY_PARAMETERS);
-
         assertParseFailure(parser, "n/Alice t/friends",
                 FindCommandParser.MESSAGE_TOO_MANY_PARAMETERS);
-
         assertParseFailure(parser, "t/friends n/Alice",
                 FindCommandParser.MESSAGE_TOO_MANY_PARAMETERS);
     }
 
+    @Test
+    public void parse_missingField_throwsParseException() {
+        assertParseFailure(parser, "n/", FindCommandParser.MESSAGE_MISSING_NAME);
+        assertParseFailure(parser, "t/", FindCommandParser.MESSAGE_MISSING_TAG);
+    }
+
+    @Test
+    public void parse_invalidName_throwsParseException() {
+        assertParseFailure(parser, "n/Pe^er", Name.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "n/P__er", Name.MESSAGE_CONSTRAINTS);
+    }
+
+    @Test
+    public void parse_invalidTag_throwsParseException() {
+        assertParseFailure(parser, "t/Frie nds", Tag.MESSAGE_CONSTRAINTS);
+        assertParseFailure(parser, "t/P@ll", Tag.MESSAGE_CONSTRAINTS);
+    }
 }
