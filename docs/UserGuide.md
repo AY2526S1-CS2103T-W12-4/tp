@@ -171,7 +171,7 @@ property data.
 | [**Managing Properties**](#managing-properties)                                            |                                                                                                                                                                       |
 | [**Add Property**](#adding-a-property-addp)                                                | `addp n/NAME a/ADDRESS pr/PRICE` <br> e.g., `addp n/Sunshine Condo a/123, Sunshine Rd, 123456 pr/800000`                                                              |
 | [**Delete Property**](#deleting-a-property--deletep)                                       | `deletep INDEX`<br> e.g., ``delete`p 3`                                                                                                                               |
-| [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…​`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                        |
+| [**Edit Property**](#editing-a-property--editp)                                            | `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]`<br> e.g.,`editp 2 n/Sunshine Condo pr/120000 a/123 Testing Rd`                                                          |
 | [**Find Property**](#locating-properties-by-property-name-findp)                           | `findp n/PROPERTY` <br> e.g., `findp n/Sunshine Condo`                                                                                                                |
 | [**List Property**](#listing-all-properties--listp)                                        | `listp`                                                                                                                                                               |
 | [**Managing Client-Property relationships**](#managing-client-property-relationships)      |                                                                                                                                                                       |
@@ -406,6 +406,9 @@ Format: `addp n/NAME a/ADDRESS pr/PRICE`
 - Prices can only be input as integers with no decimal points. For example, `pr/800000` is valid while `pr/800000.50` is not valid.
 - Properties are considered duplicates if they have the same `NAME` or `ADDRESS` field as one of the properties that already exist in the property list.
 Duplicate properties are not allowed and an error message will be shown
+- Adding a property with a similar name to an existing property but differing by spaces will produce a warning. For example, if there already exists a property with the name "City Loft",
+adding a property with the parameter "n/City  Loft" will be allowed, but a warning message will be shown.
+
 
 Examples:
 
@@ -454,6 +457,7 @@ Format: `editp INDEX [n/NAME] [a/ADDRESS] [pr/PRICE]…`
 - Edits the property at the specified `INDEX`. `INDEX` here refers to the index number shown in the displayed property list. `INDEX` **must be a positive integer** 1, 2, 3, …​
 - At least one of the optional fields must be provided.
 - Existing values will be updated to the input values.
+- Properties cannot be edited to have the same `NAME`, `ADDRESS` and `PRICE` as itself
 
 Examples:
 
@@ -472,7 +476,7 @@ Format: `findp n/PROPERTY NAME`
 - The order of the keywords does not matter. e.g. `Sunshine Lodge` will match `Lodge Sunshine`
 - Only the property name is searched.
 - findp uses substring matching for keywords. e.g. `Sun` matches `Sunflower Mansion` and `Sunshine Lodge`
-- Properties matching at least one keyword will be returned (i.e. `OR` search).
+- Properties matching at least one keyword will be returned (i.e. `OR` search)
   e.g. `Sunshine Lodge` will return `Sunshine Home`, `Lodge Farm`
 - `findp n/Sunshine` returns all properties whose property names contain `sunshine` (case-insensitive)
 
@@ -509,7 +513,7 @@ Format: `setop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - The specified client must not already own a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F).
 - Repeating the command with the same property for the same client will throw an error (e.g. This person already owns the property: PROPERTY_NAME)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
@@ -538,7 +542,7 @@ Format: `setip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - The specified client must not already be interested in a property with the exact same `PROPERTY_NAME`
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
 - Repeating the command with the same property for the same client will throw an error (e.g. This person is already marked as interested in this property: PROPERTY_NAME)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
@@ -565,7 +569,7 @@ Format: `deleteop INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already own a property with the exact same `PROPERTY_NAME`, otherwise an error message will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
@@ -590,7 +594,7 @@ Format: `deleteip INDEX_OF_CLIENT n/PROPERTY_NAME`
 - `PROPERTY_NAME` must match the name of a property that already exists in the app
 - The specified client must already be interested in a property with the exact same `PROPERTY_NAME`, otherwise an error will be shown
 - If the given property name does not exist, an error message will be shown (e.g., Property not found: Marina Bay Apt 12F)
-- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same).
+- The property name matching is case-insensitive (e.g., Sunny Villa and sunny villa are considered the same)
 
 Examples:
 
