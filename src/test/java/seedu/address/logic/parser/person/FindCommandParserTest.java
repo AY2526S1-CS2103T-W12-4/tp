@@ -65,4 +65,9 @@ public class FindCommandParserTest {
         assertParseFailure(parser, "t/Frie nds", Tag.MESSAGE_CONSTRAINTS);
         assertParseFailure(parser, "t/P@ll", Tag.MESSAGE_CONSTRAINTS);
     }
+
+    @Test
+    public void parse_tooManyTags_throwsParseException() {
+        assertParseFailure(parser, "n/a t/b pr/c", FindCommandParser.MESSAGE_TOO_MANY_PARAMETERS);
+    }
 }
