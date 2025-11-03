@@ -41,7 +41,7 @@ Given below is a quick overview of main components and how they interact with ea
 
 **Main components of the architecture**
 
-**`Main`** (consisting of classes [`Main`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/se-edu/addressbook-level3/tree/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
+**`Main`** (consisting of classes [`Main`](https://github.com/AY2526S1-CS2103T-W12-4/tp/blob/master/src/main/java/seedu/address/Main.java) and [`MainApp`](https://github.com/AY2526S1-CS2103T-W12-4/tp/blob/master/src/main/java/seedu/address/MainApp.java)) is in charge of the app launch and shut down.
 * At app launch, it initializes the other components in the correct sequence, and connects them up with each other.
 * At shut down, it shuts down the other components and invokes cleanup methods where necessary.
 
@@ -965,7 +965,7 @@ testers are expected to do more _exploratory_ testing.
     2. Test case: `edit 1 n/Hannah`<br>
        Expected: First client is edited. Details of the edited client shown in the status message.
     3. Test case: `edit 0 n/Hannah`<br>
-       Expected: No client is deleted. Error details shown in the status message. Status bar remains the same.
+       Expected: No client is edited. Error details shown in the status message. Status bar remains the same.
     4. Other incorrect delete commands to try: `edit `, `edit x`, `...` (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
@@ -1003,12 +1003,12 @@ testers are expected to do more _exploratory_ testing.
        Expected: Property is added to the list. Details of the new property shown in the status message.
 
 2. Adding a duplicate property
-    1. Test case: `add n/Duplicate Property a/321 Yishun Avenue 1 #12-18 pr/468810`
+    1. Test case: `addp n/Duplicate Property a/321 Yishun Avenue 1 #12-18 pr/468810`
     2. Repeat with the same command.
        Expected: Property is added the first time. On second time, no property is added and error showing duplicate person.
 
 3. Adding a property with missing fields
-    1. Test case: `add n/Missing property a/127 Bishan Avenue 4 #18-19`<br>
+    1. Test case: `addp n/Missing property a/127 Bishan Avenue 4 #18-19`<br>
        Expected: No property is added. Shows invalid command.
     2. This can be repeated with other fields, eg. `add n/Missing property pr/214`<br>
        Expected: No property is added. Shows invalid command.
@@ -1035,19 +1035,19 @@ testers are expected to do more _exploratory_ testing.
        Expected: First property is deleted from the list. Details of the deleted contact shown in the status message.
     3. Test case: `deletep 100`<br>
        Expected: No person is deleted. Error details shown in the status message. Status bar remains the same.
-    4. Other incorrect delete commands to try: `delete`, `delete 0`, `delete x`, `...`
+    4. Other incorrect delete commands to try: `deletep`, `deletep 0`, `deletep x`, `...`
        (where x is larger than the list size)<br>
        Expected: Similar to previous.
 
 #### Finding a property
 1. Finding a property by name keyword
     1. Prerequisites: List all properties using the `listp` command.
-    2. Test case: `find n/HDB`<br>
+    2. Test case: `findp n/HDB`<br>
        Expected: All properties contain "HDB" are listed. Shows "X properties listed!" in the status message.
 
 2. No keyword found
     1. Prerequisites: List all properties using the `listp` command.
-    2. Test case: `find n/Name`<br>
+    2. Test case: `findp n/Name`<br>
        Expected: No properties are listed. Shows "0 properties listed!" in the status message.
 
 ### Linking Properties to Clients
@@ -1069,7 +1069,7 @@ testers are expected to do more _exploratory_ testing.
     3. Test case: `setip n/Hannah`<br>
        Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
-### Deleting owned property
+#### Deleting owned property
 1. Deleting client's owned properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
     2. Test case: `deleteop 1 n/Hannah Mansion`<br>
@@ -1079,7 +1079,7 @@ testers are expected to do more _exploratory_ testing.
        Expected: Nothing happens. Error details shown in the status message. Status bar remains the same.
 
 
-### Deleting interested property
+#### Deleting interested property
 1. Deleting client's interested properties while all clients are being shown
     1. Prerequisites: List all clients using the `list` command. Multiple clients in the list.
     2. Test case: `deleteip 1 n/Hannah Mansion`<br>
