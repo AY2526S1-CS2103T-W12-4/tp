@@ -83,6 +83,16 @@ public class PropertyTest {
     }
 
     /**
+     * Returns true when names are the same but addresses are different under canonicalLoose normalization.
+     */
+    @Test
+    public void isSameProperty_differentCanonicalAddressSameName_returnsTrue() {
+        Property p1 = new Property(new Address("Block 1"), new Price(100), new PropertyName("Alpha"));
+        Property p2 = new Property(new Address("Block 2"), new Price(200), new PropertyName("alpha"));
+        assertTrue(p1.isSameProperty(p2));
+    }
+
+    /**
      * Returns false when both names and addresses (under canonicalLoose) differ.
      */
     @Test

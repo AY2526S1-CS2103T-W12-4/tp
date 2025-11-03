@@ -25,7 +25,7 @@ public class UniquePropertyListTest {
         uniqueList = new UniquePropertyList();
         pA = new Property(new Address("Addr A"), new Price(100), new PropertyName("NameA"));
         pB = new Property(new Address("Addr B"), new Price(200), new PropertyName("NameB"));
-        pASameNameDifferentFields = new Property(new Address("Addr A2"), new Price(300), new PropertyName("NameA"));
+        pASameNameDifferentFields = new Property(new Address("Addr A2"), new Price(300), new PropertyName("Namea"));
     }
 
     @Test
@@ -55,6 +55,12 @@ public class UniquePropertyListTest {
         uniqueList.add(pA);
         uniqueList.add(pB);
         assertThrows(DuplicatePropertyException.class, () -> uniqueList.setProperty(pB, pASameNameDifferentFields));
+    }
+
+    @Test
+    public void contains_returnsTrue() {
+        uniqueList.add(pA);
+        assertTrue(uniqueList.contains(pASameNameDifferentFields));
     }
 
     @Test
