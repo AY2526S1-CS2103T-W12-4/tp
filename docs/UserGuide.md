@@ -353,6 +353,7 @@ Examples:
 ![result for 'edit '](images/results/edit.png)
 
 <box type="info">
+
 **Info**:
 After editing a client's details, the client list will be updated to show all clients and not just the filtered view
 </box>
@@ -456,6 +457,7 @@ Examples:
 ![Editing a property](images/results/editp.png)
 
 <box type="info">
+
 **Info**:
 After editing a property's details, the property list will be updated to show all properties and not just the filtered view
 </box>
@@ -650,9 +652,8 @@ The index may change when the list is filtered using the `find` command or when 
 `EMAIL`, and `ADDRESS` field. Properties are considered duplicates if they have the
 same `PROPERTY NAME`. Comparisons are case-insensitive.<br>
 
-**Q**: Does each client have a fixed index?<br>
-**A**: No. The index of each client depends on the current filtered list showed in the GUI. The index of a client may change when the list is filtered using the `find` command or when clients are added or deleted.
-
+**Q**: What will happen to my data if the application crashes or I accidentally quit the app without saving the data?<br>
+**A**: Not to worry! Your data is updated after every command that you execute and will be saved to the storage file called `estatesearch.json`
 ---
 
 ## Known issues
