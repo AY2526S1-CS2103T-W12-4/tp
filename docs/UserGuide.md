@@ -653,7 +653,7 @@ The index may change when the list is filtered using the `find` command or when 
 same `PROPERTY NAME`. Comparisons are case-insensitive.<br>
 
 **Q**: What will happen to my data if the application crashes or I accidentally quit the app without saving the data?<br>
-**A**: Not to worry! Your data is updated after every command that you execute and will be saved to the storage file called `estatesearch.json`
+**A**: Not to worry! Your data is updated after every command that you execute and it will be saved to the storage file called `estatesearch.json`
 ---
 
 ## Known issues
