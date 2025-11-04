@@ -882,8 +882,8 @@ Priorities: High (must have) - `* * *`, Medium (nice to have) - `* *`, Low (unli
 
 **Team Size: 5**
 
-1. **Handle long property names and addresses in UI**: Currently, very long property names or addresses may be truncated or cause display issues in the property list panel. We plan to implement proper text wrapping and tooltips to show full details on hover.
-    - Current behavior: Property names longer than 50 characters are cut off with "..."
+1. **Handle long property names and addresses in UI**: Currently, very long property names or addresses may cause display issues in the property list panel. We plan to implement proper text wrapping and tooltips to show full details on hover.
+    - Current behavior: Property names are restricted to 50 characters, and a horizontal scrollbar is provided for the user to see the full name
     - Planned behavior: Long property names wrap to multiple lines, and hovering shows the full name in a tooltip
 
 2. **Enhance phone number validation**: Currently, phone number validation only checks for digits and minimum length. We plan to support international phone number formats and provide more specific validation feedback.
@@ -937,8 +937,8 @@ testers are expected to do more _exploratory_ testing.
 2. Re-launch the app by double-clicking the jar file.<br>
    Expected: The most recent window size and location is retained.
 
-### Managing Persons
-#### Adding a person
+### Managing Clients
+#### Adding a client
 1. Adding a client with all fields specified
     1. Test case: `add n/Jason Doe p/98765432 e/jasond@example.com a/311, Clementi Ave 2, #02-25 t/buyer`<br>
        Expected: Client is added to the list. Details of the new contact shown in the status message.
@@ -954,10 +954,10 @@ testers are expected to do more _exploratory_ testing.
     2. This can be repeated with other fields, eg. `add n/Missing Fields e/field@mail.com`<br>
        Expected: No client is added. Shows invalid command.
 
-#### Listing all client
-1. Listing all persons
+#### Listing all clients
+1. Listing all clients
     1. Test case: `list`<br>
-       Expected: All persons in the address book are listed.
+       Expected: All clients in the address book are listed.
 
 #### Editing a client
 1. Editing a client while all clients are being shown
