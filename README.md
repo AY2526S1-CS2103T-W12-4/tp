@@ -1,6 +1,6 @@
 [![CI Status](https://github.com/AY2526S1-CS2103T-W12-4/tp/workflows/Java%20CI/badge.svg)](https://github.com/AY2526S1-CS2103T-W12-4/tp/actions)
 
-![Ui](docs/images/Ui.png)
+![Ui](docs/images/results/Ui.png)
 
 # EstateSearch
 
