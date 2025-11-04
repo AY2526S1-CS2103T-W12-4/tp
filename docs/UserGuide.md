@@ -290,7 +290,8 @@ are not allowed and an error message will be shown.
 
 <box type="tip">
 
-**Tip:** A client can have any number of tags (0 or more)
+**Tip:** 
+A client can have any number of tags (0 or more)
 </box>
 
 Examples:
@@ -329,7 +330,7 @@ Examples:
 <box type="info">
 
 **Info**:
-* The delete command operates on the clients on the list that is currently displayed. For example, using the command `find n/John` followed by `delete 1` will delete the first client in the list returned by the `find` command and not from the entire list of clients.
+The `delete` command operates on the client list that is currently displayed. For example, using the command `find n/John` followed by `delete 1` will delete the first client in the list returned by the `find` command and not from the entire list of clients.
   </box>
 
 ### Editing a client : `edit`
@@ -436,7 +437,7 @@ Examples:
 <box type="info">
 
 **Info**:
-* The delete command operates on the clients on the list that is currently displayed. For example, using the command `find n/John` followed by `delete 1` will delete the first client in the list returned by the `find` command and not from the entire list of clients.
+The `deletep` command operates on the property list that is currently displayed. For example, using the command `findp n/Sunshine` followed by `deletep 1` will delete the first property in the list returned by the `findp` command and not from the entire list of properties.
   </box>
 
 ### Editing a property : `editp`
@@ -598,8 +599,7 @@ Examples:
 
 <box type="info">
 
-**Info**:
-* The deleteip command operates on the clients in the list that is currently displayed. 
+**Info**: The deleteip command operates on the clients in the list that is currently displayed. 
 For example, using the command `find n/John` followed by `deleteip 1 n/Valor House` will remove `Valor House` from the interested properties list of the first client returned by the `find n/John` command.
   </box>
 
@@ -651,9 +651,10 @@ The index may change when the list is filtered using the `find` command or when 
 **A**: Not to worry! Your data is updated after every command that you execute, and it will be saved to the storage file called `estatesearch.json`
 
 **Q**: How are duplicates determined for clients and properties?<br>
-**A**: Clients are considered duplicates if they have the same, `NAME`, `PHONE`,
-`EMAIL`, and `ADDRESS` field. Properties are considered duplicates if they have the
-same `PROPERTY NAME`. Comparisons are case-insensitive.<br>
+**A**: Clients are considered duplicates if they have the same, `NAME`, `PHONE`, `EMAIL`, and `ADDRESS` field.
+Properties are considered duplicates if they have the same `PROPERTY NAME`. Comparisons are case-insensitive.<br>
+
+
 ---
 
 ## Known issues
