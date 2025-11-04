@@ -145,7 +145,7 @@
         "saving-the-data": "Saving the data",
         "editing-the-data-file": "Editing the data file",
         "faq": "FAQ",
-        "q-what-will-happen-to-my-data-if-the-application-crashes-or-i-accidentally-quit-the-app-without-saving-the-data-a-not-to-worry-your-data-is-updated-after-every-command-that-you-execute-and-it-will-be-saved-to-the-storage-file-called-estatesearch-json": "Q: What will happen to my data if the application crashes or I accidentally quit the app without saving the data?\nA: Not to worry! Your data is updated after every command that you execute and it will be saved to the storage file called estatesearch.json",
+        "q-how-are-duplicates-determined-for-clients-and-properties-a-clients-are-considered-duplicates-if-they-have-the-same-name-phone-email-and-address-field-properties-are-considered-duplicates-if-they-have-the-same-property-name-comparisons-are-case-insensitive": "Q: How are duplicates determined for clients and properties?\nA: Clients are considered duplicates if they have the same, NAME, PHONE,\nEMAIL, and ADDRESS field. Properties are considered duplicates if they have the\nsame PROPERTY NAME. Comparisons are case-insensitive.",
         "known-issues": "Known issues",
         "acceptable-value-ranges-for-parameters": "Acceptable Value Ranges for Parameters",
         "glossary": "Glossary"
