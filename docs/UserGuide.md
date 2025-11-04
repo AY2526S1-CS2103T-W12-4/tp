@@ -149,7 +149,6 @@ property data.
 ---
 
 ## EstateSearch Command Summary
-[](#mana)
 
 | Action                                                                                     | Format, Examples                                                                                                                                                      |
 |--------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -175,6 +174,8 @@ property data.
 | [**Set Interested Property**](#setting-an-interested-property-for-a-client--setip)         | `setip INDEX n/PROPERTY_NAME`<br> e.g., `setip 2 n/Sunshine Condo`                                                                                                    |
 | [**Delete Owned Property**](#deleting-an-owned-property-from-a-client--deleteop)           | `deleteop INDEX n/PROPERTY_NAME` <br> e.g., `deleteop 1 n/Cinnamon Height`                                                                                            |
 | [**Delete Interested Property**](#deleting-an-interested-property-from-a-client--deleteip) | `deleteip INDEX n/PROPERTY_NAME` <br> e.g., `deleteip 2 n/Sunshine Garden`                                                                                            |
+
+
 ---
 
 ## Features
